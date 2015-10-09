@@ -15,10 +15,13 @@ end
 
 defmodule ElixirlsJustWantToHavePuns do
   def run(word) do
-    results = RhymebrainResults.for(word)
-    Enum.flat_map(results, fn (result) ->
-      Phrases.with_word(result.word)
-    end)
+    RhymebrainResults.for(word)
+    |> Enum.flat_map(&(puns(word, &1)))
+  end
+
+  def puns(word, result) do
+    Phrases.with_word(result.word)
+    |> Enum.map(&(String.replace(&1, result.word, word)))
   end
 end
 
