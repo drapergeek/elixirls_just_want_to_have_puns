@@ -14,6 +14,12 @@ defimpl String.Chars, for: RhymebrainResult do
 end
 
 defmodule ElixirlsJustWantToHavePuns do
+  def run(word) do
+    results = RhymebrainResults.for(word)
+    Enum.flat_map(results, fn (result) ->
+      Phrases.with_word(result.word)
+    end)
+  end
 end
 
 defmodule RhymebrainResults do
@@ -35,7 +41,7 @@ defmodule RhymebrainResults do
 
   def find_highest_scored_words({:ok, results}) do
     max = max_score(results)
-    length Enum.filter(results, fn (result) -> result.score == max end)
+    Enum.filter(results, fn (result) -> result.score == max end)
   end
 
   def max_score(results) do
@@ -46,11 +52,16 @@ end
 defmodule Phrases do
   def beatles do
     [
-      "Put the cart before the horse"
+      "Put the cart before the horse",
+      "Another phrase"
     ]
+  end
+
+  def with_word(word) do
+    Enum.filter(beatles, &(String.contains?(&1, word)))
   end
 end
 
 IO.puts "\n\n"
-IO.puts RhymebrainResults.for("heart")
+IO.puts ElixirlsJustWantToHavePuns.run("heart")
 IO.puts "\n\n"
