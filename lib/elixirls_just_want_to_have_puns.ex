@@ -6,8 +6,8 @@ end
 defmodule Pun do
   defstruct [:original_phrase, :pun_phrase]
 
-  def make(original_phrase, original_word, rhymebrain_result) do
-    pun_phrase = String.replace(original_phrase, rhymebrain_result.word, original_word)
+  def make(original_phrase, original_word, %{word: result_word}) do
+    pun_phrase = String.replace(original_phrase, result_word, original_word)
     %Pun{original_phrase: original_phrase, pun_phrase: pun_phrase}
   end
 end
