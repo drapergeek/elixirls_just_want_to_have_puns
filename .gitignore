@@ -2,3 +2,4 @@
 /deps
 erl_crash.dump
 *.ez
+/elixirls_just_want_to_have_puns
