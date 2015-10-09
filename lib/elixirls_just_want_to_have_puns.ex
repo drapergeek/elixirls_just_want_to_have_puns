@@ -59,8 +59,12 @@ defmodule RhymebrainResults do
   end
 
   def find_highest_scored_words({:ok, results}) do
-    max = max_score(results)
-    Enum.filter(results, fn (result) -> result.score == max end)
+    max_score(results)
+    |> find_all_with_score(results)
+  end
+
+  def find_all_with_score(max, results) do
+    Enum.filter(results, &(&1.score == max))
   end
 
   def max_score(results) do
