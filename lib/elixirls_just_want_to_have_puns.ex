@@ -71,11 +71,11 @@ end
 defmodule Phrases do
   def files do
     [
-      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/beatles-songs.txt",
-      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/best-selling-books.txt",
-      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/movie-quotes.txt",
-      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/oscar-winning-movies.txt",
-      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/wikipedia-idioms.txt",
+      "./phrases/beatles-songs.txt",
+      "./phrases/best-selling-books.txt",
+      "./phrases/movie-quotes.txt",
+      "./phrases/oscar-winning-movies.txt",
+      "./phrases/wikipedia-idioms.txt",
     ]
   end
 
