@@ -65,15 +65,21 @@ defmodule RhymebrainResults do
 end
 
 defmodule Phrases do
-  def beatles do
+  def files do
     [
-      "Put the cart before the horse",
-      "Another phrase"
+      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/beatles-songs.txt",
+      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/best-selling-books.txt",
+      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/movie-quotes.txt",
+      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/oscar-winning-movies.txt",
+      "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/wikipedia-idioms.txt",
     ]
   end
 
   def with_word(word) do
-    file = "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/beatles_songs.txt"
+    Enum.flat_map(files, &(file_with_word(&1, word)))
+  end
+
+  def file_with_word(file, word) do
     File.stream!(file)
     |> Enum.map(&(String.strip(&1)))
     |> Enum.filter(&(PunFinder.contains?(&1, word)))
@@ -97,5 +103,5 @@ defmodule PunFinder do
 end
 
 # IO.puts "\n\n"
-Enum.each(ElixirlsJustWantToHavePuns.run("part"), &(IO.puts(&1)))
+Enum.each(ElixirlsJustWantToHavePuns.run("john"), &(IO.puts(&1)))
 # IO.puts "\n\n"
