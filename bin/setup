@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+mix deps.get
+mix escript.build
