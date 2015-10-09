@@ -7,7 +7,7 @@ defmodule Pun do
   defstruct [:original_phrase, :pun_phrase]
 
   def make(original_phrase, original_word, %{word: result_word}) do
-    pun_phrase = String.replace(original_phrase, result_word, original_word)
+    pun_phrase = PunFinder.replace(original_phrase, result_word, original_word)
     %Pun{original_phrase: original_phrase, pun_phrase: pun_phrase}
   end
 end
@@ -73,10 +73,29 @@ defmodule Phrases do
   end
 
   def with_word(word) do
-    Enum.filter(beatles, &(String.contains?(&1, word)))
+    file = "/Users/draper/code/elixirls_just_want_to_have_puns/phrases/beatles_songs.txt"
+    File.stream!(file)
+    |> Enum.map(&(String.strip(&1)))
+    |> Enum.filter(&(PunFinder.contains?(&1, word)))
   end
 end
 
-IO.puts "\n\n"
-Enum.each(ElixirlsJustWantToHavePuns.run("heart"), &(IO.puts(&1)))
-IO.puts "\n\n"
+defmodule PunFinder do
+  def contains?(phrase, word) do
+    solitary(word)
+    |> Regex.match?(phrase)
+  end
+
+  def replace(original_phrase, original_word, new_word) do
+    solitary(original_word)
+    |> Regex.replace(original_phrase, new_word)
+  end
+
+  def solitary(word) do
+    ~r/\b#{word}\b/i
+  end
+end
+
+# IO.puts "\n\n"
+Enum.each(ElixirlsJustWantToHavePuns.run("part"), &(IO.puts(&1)))
+# IO.puts "\n\n"
