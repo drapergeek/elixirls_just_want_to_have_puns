@@ -7,6 +7,7 @@ defmodule ElixirlsJustWantToHavePuns.Mixfile do
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     escript: escript_config,
      deps: deps]
   end
 
@@ -31,5 +32,9 @@ defmodule ElixirlsJustWantToHavePuns.Mixfile do
       { :httpoison, "~> 0.7.2"},
       { :poison, "~> 1.5"},
     ]
+  end
+
+  def escript_config do
+    [ main_module: ElixirlsJustWantToHavePuns ]
   end
 end

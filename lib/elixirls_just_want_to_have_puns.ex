@@ -25,6 +25,10 @@ defimpl String.Chars, for: RhymebrainResult do
 end
 
 defmodule ElixirlsJustWantToHavePuns do
+  def main([word]) do
+    Enum.each(run(word), &(IO.puts(&1)))
+  end
+
   def run(word) do
     RhymebrainResults.for(word)
     |> Enum.flat_map(&(puns(word, &1)))
@@ -101,7 +105,3 @@ defmodule PunFinder do
     ~r/\b#{word}\b/i
   end
 end
-
-# IO.puts "\n\n"
-Enum.each(ElixirlsJustWantToHavePuns.run("john"), &(IO.puts(&1)))
-# IO.puts "\n\n"
