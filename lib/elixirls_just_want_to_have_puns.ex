@@ -13,14 +13,14 @@ defmodule Pun do
 end
 
 defimpl String.Chars, for: Pun do
-  def to_string(pun) do
-    "#{pun.pun_phrase} (pun of: #{pun.original_phrase})"
+  def to_string(%{pun_phrase: pun_phrase, original_phrase: original_phrase}) do
+    "#{pun_phrase} (pun of: #{original_phrase})"
   end
 end
 
 defimpl String.Chars, for: RhymebrainResult do
-  def to_string(rhymebrain_result) do
-    "word: #{rhymebrain_result.word} / score: #{rhymebrain_result.score}"
+  def to_string(%{word: word, score: score }) do
+    "word: #{word} / score: #{score}"
   end
 end
 
@@ -39,6 +39,7 @@ end
 defmodule RhymebrainResults do
   def for(word) do
     HTTPoison.start
+
     rhymebrain_url(word)
     |> HTTPoison.get
     |> handle_response
