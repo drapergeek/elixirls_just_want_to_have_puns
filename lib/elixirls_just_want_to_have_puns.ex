@@ -41,6 +41,8 @@ defmodule ElixirlsJustWantToHavePuns do
 end
 
 defmodule RhymebrainResults do
+  import Enum
+
   def for(word) do
     HTTPoison.start
 
@@ -59,16 +61,15 @@ defmodule RhymebrainResults do
   end
 
   def find_highest_scored_words({:ok, results}) do
-    max_score(results)
-    |> find_all_with_score(results)
+    max_score(results) |> find_all_with_score(results)
   end
 
   def find_all_with_score(max, results) do
-    Enum.filter(results, &(&1.score == max))
+    filter(results, &(&1.score == max))
   end
 
   def max_score(results) do
-    Enum.max_by(results, &(&1.score)).score
+    max_by(results, &(&1.score)).score
   end
 end
 
