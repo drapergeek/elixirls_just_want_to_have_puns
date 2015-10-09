@@ -4,7 +4,18 @@ defmodule RhymebrainResult do
 end
 
 defmodule Pun do
-  defstruct [:original, :pun]
+  defstruct [:original_phrase, :pun_phrase]
+
+  def make(original_phrase, original_word, rhymebrain_result) do
+    pun_phrase = String.replace(original_phrase, rhymebrain_result.word, original_word)
+    %Pun{original_phrase: original_phrase, pun_phrase: pun_phrase}
+  end
+end
+
+defimpl String.Chars, for: Pun do
+  def to_string(pun) do
+    "#{pun.pun_phrase} (pun of: #{pun.original_phrase})"
+  end
 end
 
 defimpl String.Chars, for: RhymebrainResult do
@@ -19,9 +30,9 @@ defmodule ElixirlsJustWantToHavePuns do
     |> Enum.flat_map(&(puns(word, &1)))
   end
 
-  def puns(word, result) do
-    Phrases.with_word(result.word)
-    |> Enum.map(&(String.replace(&1, result.word, word)))
+  def puns(original_word, rhymebrain_result) do
+    Phrases.with_word(rhymebrain_result.word)
+    |> Enum.map(&(Pun.make(&1, original_word, rhymebrain_result)))
   end
 end
 
@@ -66,5 +77,5 @@ defmodule Phrases do
 end
 
 IO.puts "\n\n"
-IO.puts ElixirlsJustWantToHavePuns.run("heart")
+Enum.each(ElixirlsJustWantToHavePuns.run("heart"), &(IO.puts(&1)))
 IO.puts "\n\n"
