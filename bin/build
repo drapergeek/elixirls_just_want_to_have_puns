@@ -2,5 +2,10 @@
 
 set -e
 
+if ! command -v mix; then
+  echo "You need to install Elixir"
+  exit 1
+fi
+
 mix deps.get
 mix escript.build
