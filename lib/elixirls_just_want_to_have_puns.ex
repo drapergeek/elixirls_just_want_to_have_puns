@@ -25,18 +25,20 @@ defimpl String.Chars, for: RhymebrainResult do
 end
 
 defmodule ElixirlsJustWantToHavePuns do
+  import Enum
+
   def main([word]) do
-    Enum.each(run(word), &(IO.puts(&1)))
+    each(run(word), &(IO.puts(&1)))
   end
 
   def run(word) do
     RhymebrainResults.for(word)
-    |> Enum.flat_map(&(puns(word, &1)))
+    |> flat_map(&(puns(word, &1)))
   end
 
   def puns(original_word, rhymebrain_result) do
     Phrases.with_word(rhymebrain_result.word)
-    |> Enum.map(&(Pun.make(&1, original_word, rhymebrain_result)))
+    |> map(&(Pun.make(&1, original_word, rhymebrain_result)))
   end
 end
 
@@ -74,6 +76,8 @@ defmodule RhymebrainResults do
 end
 
 defmodule Phrases do
+  import Enum
+
   def files do
     [
       "./phrases/beatles-songs.txt",
@@ -85,13 +89,13 @@ defmodule Phrases do
   end
 
   def with_word(word) do
-    Enum.flat_map(files, &(file_with_word(&1, word)))
+    flat_map(files, &(file_with_word(&1, word)))
   end
 
   def file_with_word(file, word) do
     File.stream!(file)
-    |> Enum.map(&(String.strip(&1)))
-    |> Enum.filter(&(PunFinder.contains?(&1, word)))
+    |> map(&(String.strip(&1)))
+    |> filter(&(PunFinder.contains?(&1, word)))
   end
 end
 
